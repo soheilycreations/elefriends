@@ -17,11 +17,14 @@ export default function HomePage() {
     const heroRef = useRef<HTMLElement>(null);
     const [isVideoOpen, setIsVideoOpen] = useState(false);
     
-    // Video Gallery Data
+    // Video Gallery Data (You can add more videos here)
     const tourVideos = [
         { id: '1175789228', title: 'The Great Gathering' },
         { id: '1175789160', title: 'Wild Encounters' },
-        { id: '1175789276', title: 'Gentle Giants' }
+        { id: '1175789276', title: 'Gentle Giants' },
+        { id: '1175789228', title: 'Morning Safari' }, // Demo entry, you can replace the ID later
+        { id: '1175789160', title: 'Elephant Playtime' }, // Demo entry
+        { id: '1175789276', title: 'Forest Walk' } // Demo entry
     ];
     const [activeVideo, setActiveVideo] = useState(tourVideos[0].id);
 
@@ -70,14 +73,14 @@ export default function HomePage() {
     return (
         <div className="min-h-screen selection:bg-emerald-500/30 font-sans bg-white overflow-x-hidden relative">
 
-            {/* Video Modal */}
+            {/* Video Modal with Side Panel */}
             {isVideoOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0b1315]/95 backdrop-blur-md p-4">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0b1315]/95 backdrop-blur-md p-4 lg:p-8">
                     <button 
                         onClick={() => setIsVideoOpen(false)}
-                        className="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-emerald-400 z-50 p-2 transition-colors cursor-pointer"
+                        className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-emerald-400 z-[110] p-2 transition-colors cursor-pointer bg-[#0b1315]/50 rounded-full"
                     >
-                        <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
@@ -85,10 +88,10 @@ export default function HomePage() {
                     <motion.div 
                         initial={{ opacity: 0, scale: 0.9, y: 30 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        className="w-[95vw] md:w-[85vw] max-w-6xl flex flex-col gap-6"
+                        className="w-[95vw] md:w-[90vw] max-w-[1400px] h-[85vh] md:h-[80vh] flex flex-col lg:flex-row gap-6 relative"
                     >
-                        {/* Main Video Player */}
-                        <div className="w-full aspect-video bg-black rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(16,185,129,0.3)] relative border border-white/10">
+                        {/* Main Video Player (Left/Top) */}
+                        <div className="w-full lg:flex-1 flex-shrink-0 h-[40vh] md:h-[50vh] lg:h-full bg-black rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(16,185,129,0.3)] relative border border-white/10">
                             <iframe 
                                 key={activeVideo}
                                 width="100%" 
@@ -101,21 +104,27 @@ export default function HomePage() {
                             ></iframe>
                         </div>
 
-                        {/* Video Gallery Playlist */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {/* Video Gallery Side Panel (Right/Bottom) */}
+                        <div className="w-full lg:w-80 flex-shrink-0 flex flex-col gap-4 overflow-y-auto pb-8 snap-y snap-mandatory scroll-smooth pr-1 lg:pr-4" style={{ scrollbarWidth: 'thin', scrollbarColor: '#10b981 transparent' }}>
+                            <div className="sticky top-0 bg-[#0b1315]/95 backdrop-blur-md z-20 py-4 border-b border-white/10 mb-2 flex justify-between items-center shadow-sm">
+                                <h3 className="text-white font-black uppercase tracking-widest text-sm md:text-base">Up Next</h3>
+                                <p className="text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full text-[10px] uppercase font-black tracking-widest">{tourVideos.length} Clips</p>
+                            </div>
+                            
                             {tourVideos.map((vid, idx) => (
                                 <button
-                                    key={vid.id}
+                                    key={vid.title + idx}
                                     onClick={() => setActiveVideo(vid.id)}
-                                    className={`relative aspect-video sm:aspect-auto sm:h-32 md:h-40 rounded-2xl overflow-hidden transition-all duration-500 border-2 bg-[#0b1315] ${activeVideo === vid.id ? 'border-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.3)] scale-105 z-10' : 'border-white/10 hover:border-white/30 hover:scale-[1.02]'} group flex flex-col items-center justify-center`}
+                                    className={`relative flex-shrink-0 aspect-video rounded-2xl overflow-hidden transition-all duration-500 border-2 bg-[#0b1315] snap-start ${activeVideo === vid.id ? 'border-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.3)] z-10 scale-[1.02]' : 'border-white/10 hover:border-white/30 hover:scale-[1.02]'} group flex flex-col items-center justify-center`}
                                 >
-                                    <div className={`absolute inset-0 opacity-30 bg-cover bg-center transition-opacity duration-500 ${activeVideo === vid.id ? 'opacity-10' : 'group-hover:opacity-40'}`} style={{ backgroundImage: `url('/img/img${idx + 2}.jpg')` }} />
+                                    {/* Using a fixed backdrop to simulate video imagery. You can use dynamic screenshots if Vimeo APIs are added later */}
+                                    <div className={`absolute inset-0 opacity-30 bg-cover bg-center transition-opacity duration-500 ${activeVideo === vid.id ? 'opacity-10' : 'group-hover:opacity-40'}`} style={{ backgroundImage: `url('/img/img${(idx % 4) + 1}.jpg')` }} />
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#0b1315] via-[#0b1315]/50 to-transparent" />
                                     
                                     <div className="relative z-10 flex flex-col items-center p-4">
-                                        <Play className={`w-10 h-10 mb-2 transition-all duration-300 ${activeVideo === vid.id ? 'text-emerald-500 fill-emerald-500 scale-110 drop-shadow-[0_0_15px_#10b981]' : 'text-white/60 fill-white/20 group-hover:text-white group-hover:fill-white/40'}`} />
-                                        <span className={`text-xs md:text-sm font-black uppercase tracking-widest text-center transition-colors ${activeVideo === vid.id ? 'text-white' : 'text-gray-300 group-hover:text-white'}`}>{vid.title}</span>
-                                        <span className="text-gray-500 text-[9px] md:text-[10px] font-bold uppercase mt-1 tracking-[0.2em]">Part 0{idx + 1}</span>
+                                        <Play className={`w-8 h-8 mb-2 transition-all duration-300 ${activeVideo === vid.id ? 'text-emerald-500 fill-emerald-500 scale-110 drop-shadow-[0_0_15px_#10b981]' : 'text-white/60 fill-white/20 group-hover:text-white group-hover:fill-white/40'}`} />
+                                        <span className={`text-xs font-black uppercase tracking-widest text-center transition-colors ${activeVideo === vid.id ? 'text-white' : 'text-gray-300 group-hover:text-white'}`}>{vid.title}</span>
+                                        <span className="text-gray-500 text-[9px] font-bold uppercase mt-1 tracking-[0.2em]">Part 0{idx + 1}</span>
                                     </div>
 
                                     {activeVideo === vid.id && (
