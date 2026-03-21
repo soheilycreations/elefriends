@@ -5,9 +5,9 @@ import { Users, MapPin, Milestone, Sun } from 'lucide-react';
 
 const stats = [
     { label: 'Happy Travelers', value: '5,000+', icon: Users },
-    { label: 'Safari Tours', value: '1,200+', icon: MapPin },
+    { label: 'Safari Tours', value: '4,500+', icon: MapPin },
     { label: 'Expert Guides', value: '15+', icon: Milestone },
-    { label: 'Wildlife Sightings', value: '98%', icon: Sun },
+    { label: 'Guests Spotting Elefriends', value: '98%', icon: Sun },
 ];
 
 export default function StatsSection() {

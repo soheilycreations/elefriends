@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -15,6 +15,7 @@ import { SriLankanMap, LiyawelPattern } from '@/components/icons/HeritageIcons';
 
 export default function HomePage() {
     const heroRef = useRef<HTMLElement>(null);
+    const [isVideoOpen, setIsVideoOpen] = useState(false);
     const { scrollY } = useScroll();
 
     // Parallax & Scroll effects
@@ -58,7 +59,38 @@ export default function HomePage() {
     ];
 
     return (
-        <div className="min-h-screen selection:bg-emerald-500/30 font-sans bg-white overflow-x-hidden">
+        <div className="min-h-screen selection:bg-emerald-500/30 font-sans bg-white overflow-x-hidden relative">
+
+            {/* Video Modal */}
+            {isVideoOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0b1315]/95 backdrop-blur-md p-4">
+                    <button 
+                        onClick={() => setIsVideoOpen(false)}
+                        className="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-emerald-400 z-50 p-2 transition-colors cursor-pointer"
+                    >
+                        <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        className="w-full max-w-[400px] aspect-[9/16] md:max-w-none md:w-auto md:h-[80vh] bg-black rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(16,185,129,0.2)] relative border border-white/10"
+                    >
+                        <iframe 
+                            width="100%" 
+                            height="100%" 
+                            src="https://www.youtube.com/embed/MiP2wbXvqvk?autoplay=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&fs=0&playsinline=1&loop=1&playlist=MiP2wbXvqvk" 
+                            title="Elephant Safari Film" 
+                            className="absolute inset-0 w-full h-full scale-[1.05]"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowFullScreen
+                        ></iframe>
+                    </motion.div>
+                </div>
+            )}
+
 
             {/* Hero Section - Full Screen & Immersive */}
             <section ref={heroRef} className="relative h-[100dvh] flex flex-col justify-start overflow-hidden">
@@ -159,7 +191,10 @@ export default function HomePage() {
                             <ArrowRight className="w-6 h-6 group-hover:translate-x-4 transition-transform" />
                         </Link>
 
-                        <div className="flex items-center gap-8 group cursor-pointer hover:scale-110 transition-all duration-500">
+                        <div 
+                            onClick={() => setIsVideoOpen(true)}
+                            className="flex items-center gap-8 group cursor-pointer hover:scale-110 transition-all duration-500"
+                        >
                             <div className="w-20 h-20 rounded-full border-2 border-white/20 flex items-center justify-center p-2 group-hover:border-emerald-500 shadow-2xl">
                                 <div className="w-full h-full bg-emerald-500/10 rounded-full flex items-center justify-center group-hover:bg-emerald-500 transition-all">
                                     <Play className="w-8 h-8 text-white fill-white group-hover:text-[#0b1315] group-hover:fill-[#0b1315] ml-2 transition-all" />
@@ -181,12 +216,18 @@ export default function HomePage() {
                     className="absolute bottom-12 right-6 md:right-16 flex flex-col items-center gap-6 z-20"
                 >
                     <span className="text-[11px] text-emerald-400 font-black uppercase tracking-[0.6em] vertical-rl h-24 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]">Scroll Deep</span>
-                    <div className="h-20 w-[1.5px] bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.8)] relative">
-                        <motion.div
-                            animate={{ y: [0, 80] }}
-                            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                            className="absolute top-0 left-[-2px] w-[5.5px] h-[5.5px] bg-emerald-400 rounded-full shadow-[0_0_15px_#10b981]"
-                        />
+                    <div className="h-20 w-[1.5px] bg-emerald-500/30 relative flex justify-center mt-2 group">
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/50 to-emerald-500 rounded-full" />
+                        
+                        {/* Subtle Chevron Arrow Head */}
+                        <motion.svg 
+                            animate={{ y: [0, 5, 0], opacity: [0.5, 1, 0.5] }}
+                            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                            className="absolute -bottom-3 w-4 h-4 text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]" 
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </motion.svg>
                     </div>
                 </motion.div>
             </section>
