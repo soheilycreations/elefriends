@@ -16,6 +16,15 @@ import { SriLankanMap, LiyawelPattern } from '@/components/icons/HeritageIcons';
 export default function HomePage() {
     const heroRef = useRef<HTMLElement>(null);
     const [isVideoOpen, setIsVideoOpen] = useState(false);
+    
+    // Video Gallery Data
+    const tourVideos = [
+        { id: '1175789228', title: 'The Great Gathering' },
+        { id: '1175789160', title: 'Wild Encounters' },
+        { id: '1175789276', title: 'Gentle Giants' }
+    ];
+    const [activeVideo, setActiveVideo] = useState(tourVideos[0].id);
+
     const { scrollY } = useScroll();
 
     // Parallax & Scroll effects
@@ -76,17 +85,48 @@ export default function HomePage() {
                     <motion.div 
                         initial={{ opacity: 0, scale: 0.9, y: 30 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        className="w-[95vw] md:w-[85vw] max-w-5xl aspect-video bg-black rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(16,185,129,0.3)] relative border border-white/10"
+                        className="w-[95vw] md:w-[85vw] max-w-6xl flex flex-col gap-6"
                     >
-                        <iframe 
-                            width="100%" 
-                            height="100%" 
-                            src="https://player.vimeo.com/video/1175789228?autoplay=1&loop=1&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479" 
-                            title="Elephant Safari Film" 
-                            className="absolute inset-0 w-full h-full"
-                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
-                            allowFullScreen
-                        ></iframe>
+                        {/* Main Video Player */}
+                        <div className="w-full aspect-video bg-black rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(16,185,129,0.3)] relative border border-white/10">
+                            <iframe 
+                                key={activeVideo}
+                                width="100%" 
+                                height="100%" 
+                                src={`https://player.vimeo.com/video/${activeVideo}?autoplay=1&loop=1&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479`}
+                                title="Elephant Safari Film" 
+                                className="absolute inset-0 w-full h-full bg-[#0b1315]"
+                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+
+                        {/* Video Gallery Playlist */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            {tourVideos.map((vid, idx) => (
+                                <button
+                                    key={vid.id}
+                                    onClick={() => setActiveVideo(vid.id)}
+                                    className={`relative aspect-video sm:aspect-auto sm:h-32 md:h-40 rounded-2xl overflow-hidden transition-all duration-500 border-2 bg-[#0b1315] ${activeVideo === vid.id ? 'border-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.3)] scale-105 z-10' : 'border-white/10 hover:border-white/30 hover:scale-[1.02]'} group flex flex-col items-center justify-center`}
+                                >
+                                    <div className={`absolute inset-0 opacity-30 bg-cover bg-center transition-opacity duration-500 ${activeVideo === vid.id ? 'opacity-10' : 'group-hover:opacity-40'}`} style={{ backgroundImage: `url('/img/img${idx + 2}.jpg')` }} />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b1315] via-[#0b1315]/50 to-transparent" />
+                                    
+                                    <div className="relative z-10 flex flex-col items-center p-4">
+                                        <Play className={`w-10 h-10 mb-2 transition-all duration-300 ${activeVideo === vid.id ? 'text-emerald-500 fill-emerald-500 scale-110 drop-shadow-[0_0_15px_#10b981]' : 'text-white/60 fill-white/20 group-hover:text-white group-hover:fill-white/40'}`} />
+                                        <span className={`text-xs md:text-sm font-black uppercase tracking-widest text-center transition-colors ${activeVideo === vid.id ? 'text-white' : 'text-gray-300 group-hover:text-white'}`}>{vid.title}</span>
+                                        <span className="text-gray-500 text-[9px] md:text-[10px] font-bold uppercase mt-1 tracking-[0.2em]">Part 0{idx + 1}</span>
+                                    </div>
+
+                                    {activeVideo === vid.id && (
+                                        <div className="absolute top-3 right-3 flex items-center gap-2 bg-emerald-500/20 px-3 py-1.5 rounded-full border border-emerald-500/30">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                            <span className="text-[8px] text-emerald-400 font-black uppercase tracking-widest leading-none">Playing</span>
+                                        </div>
+                                    )}
+                                </button>
+                            ))}
+                        </div>
                     </motion.div>
                 </div>
             )}
