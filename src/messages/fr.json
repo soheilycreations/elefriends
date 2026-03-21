@@ -1,0 +1,18 @@
+{
+    "Navigation": {
+        "home": "Accueil",
+        "destinations": "Destinations",
+        "tours": "Forfaits Safari",
+        "about": "À propos",
+        "contact": "Contactez-nous"
+    },
+    "HomePage": {
+        "title": "Explorez la nature sauvage avec ELEFRIENDS",
+        "subtitle": "Vivez l'aventure ultime du safari au Sri Lanka.",
+        "cta": "Explorer les forfaits"
+    },
+    "Tours": {
+        "title": "Nos Forfaits Safari Premium",
+        "bookNow": "Réserver maintenant"
+    }
+}

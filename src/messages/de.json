@@ -1,0 +1,18 @@
+{
+    "Navigation": {
+        "home": "Startseite",
+        "destinations": "Ziele",
+        "tours": "Safari-Pakete",
+        "about": "Über uns",
+        "contact": "Kontakt"
+    },
+    "HomePage": {
+        "title": "Entdecken Sie die Wildnis mit ELEFRIENDS",
+        "subtitle": "Erleben Sie das ultimative Safari-Abenteuer in Sri Lanka.",
+        "cta": "Pakete erkunden"
+    },
+    "Tours": {
+        "title": "Unsere Premium Safari-Pakete",
+        "bookNow": "Jetzt buchen"
+    }
+}
