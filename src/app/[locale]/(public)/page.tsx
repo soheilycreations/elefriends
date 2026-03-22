@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -12,6 +12,8 @@ import TestimonialsSection from '@/components/home/TestimonialsSection';
 import { ShieldCheck, UserCheck, Car, Award, ArrowRight, Play, Compass, Map, Sparkles } from 'lucide-react';
 import { ElephantIcon } from '@/components/icons/ElephantIcon';
 import { SriLankanMap, LiyawelPattern } from '@/components/icons/HeritageIcons';
+import { destinationService } from '@/lib/services/destinationService';
+import { Destination } from '@/types';
 
 export default function HomePage() {
     const heroRef = useRef<HTMLElement>(null);
@@ -35,13 +37,25 @@ export default function HomePage() {
     const opacityHero = useTransform(scrollY, [0, 400], [1, 0]);
     const scaleHero = useTransform(scrollY, [0, 400], [1, 1.1]);
 
-    // Static Data matched to exact design image
-    const destinations = [
-        { title: 'Minneriya National Park', subtitle: 'Famous for the great elephant gathering.', image: '/img/img1.jpg', link: '/tours?dest=minneriya' },
-        { title: 'Kaudulla National Park', subtitle: 'A vast haven for elephants.', image: '/img/img2.jpg', link: '/tours?dest=kaudulla' },
-        { title: 'Eco Hurulu Park', subtitle: 'A greener habitat for roaming wildlife.', image: '/img/img3.jpg', link: '/tours?dest=hurulu' },
-        { title: 'Habarana Village', subtitle: 'Experience traditional Sri Lanka life.', image: '/img/img4.jpg', link: '/tours?dest=habarana' },
-    ];
+    // Fetch dynamic destinations from DB
+    const [destinations, setDestinations] = useState<Destination[]>([]);
+    const [loadingDestinations, setLoadingDestinations] = useState(true);
+
+    useEffect(() => {
+        const loadDestinations = async () => {
+            try {
+                const data = await destinationService.getAllDestinations();
+                // Sort by display_order so admin can configure which ones appear first
+                const sorted = data.sort((a, b) => (a.display_order ?? 999) - (b.display_order ?? 999));
+                setDestinations(sorted.slice(0, 4)); // Show top 4
+            } catch (error) {
+                console.error('Error fetching destinations:', error);
+            } finally {
+                setLoadingDestinations(false);
+            }
+        };
+        loadDestinations();
+    }, []);
 
     const packages = [
         {
@@ -323,15 +337,24 @@ export default function HomePage() {
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {destinations.map((dest, index) => (
+                        {loadingDestinations ? (
+                            <div className="col-span-full flex items-center justify-center py-20">
+                                <span className="text-emerald-500 font-bold uppercase text-[10px] tracking-widest animate-pulse">Loading Hotspots...</span>
+                            </div>
+                        ) : destinations.map((dest, index) => (
                             <motion.div
-                                key={dest.title}
+                                key={dest.id || dest.title}
                                 initial={{ opacity: 0, y: 40 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-50px" }}
                                 transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
                             >
-                                <DestinationCard {...dest} />
+                                <DestinationCard 
+                                    title={dest.title} 
+                                    subtitle={dest.subtitle} 
+                                    image={dest.image} 
+                                    link={`/destinations/${dest.slug}`} 
+                                />
                             </motion.div>
                         ))}
                     </div>

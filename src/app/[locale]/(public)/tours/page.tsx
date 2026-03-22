@@ -10,7 +10,10 @@ import { ElephantIcon } from '@/components/icons/ElephantIcon';
 import { tourService } from '@/lib/services/tourService';
 import { Tour } from '@/types';
 
-export default function ToursPage() {
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+
+function ToursContent() {
     const { scrollY } = useScroll();
     const yHeader = useTransform(scrollY, [0, 400], [0, 100]);
     const opacityHero = useTransform(scrollY, [0, 300], [1, 0]);
@@ -18,12 +21,38 @@ export default function ToursPage() {
     const [packages, setPackages] = useState<Tour[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const searchParams = useSearchParams();
+    const destFilter = searchParams.get('dest');
+
+    const getTitle = () => {
+        if (!destFilter) return { top: "Safari", bottom: "Collections" };
+        const destStr = destFilter.toLowerCase();
+        if (destStr.includes('minneriya')) return { top: "Minneriya", bottom: "Safari" };
+        if (destStr.includes('kaudulla')) return { top: "Kaudulla", bottom: "Safari" };
+        if (destStr.includes('hurulu')) return { top: "Hurulu", bottom: "Eco Park" };
+        if (destStr.includes('habarana')) return { top: "Habarana", bottom: "Village" };
+        return { top: destFilter.charAt(0).toUpperCase() + destFilter.slice(1), bottom: "Tours" };
+    };
+    const pageTitle = getTitle();
+
     useEffect(() => {
         const fetchPackages = async () => {
             try {
                 const data = await tourService.getAllTours();
                 // Filter only active packages for the public
-                setPackages(data.filter(p => p.is_active));
+                let filtered = data.filter(p => p.is_active);
+                
+                // If a destination filter is provided (from homepage "View Packages" buttons)
+                if (destFilter) {
+                    // Match the slug - this handles links like /tours?dest=minneriya
+                    // We check if the destination name or location contains the filter string
+                    filtered = filtered.filter(p => 
+                        p.location.toLowerCase().includes(destFilter.toLowerCase()) || 
+                        p.title.toLowerCase().includes(destFilter.toLowerCase())
+                    );
+                }
+                
+                setPackages(filtered);
             } catch (err) {
                 console.error('Error fetching packages:', err);
             } finally {
@@ -31,7 +60,7 @@ export default function ToursPage() {
             }
         };
         fetchPackages();
-    }, []);
+    }, [destFilter]);
 
     return (
         <div className="min-h-screen bg-white selection:bg-emerald-500/30 overflow-x-hidden">
@@ -69,12 +98,12 @@ export default function ToursPage() {
                             <span className="text-emerald-400 font-black text-[10px] uppercase tracking-[0.4em]">Handcrafted Journeys</span>
                         </div>
                         <h1 className="text-5xl md:text-7xl lg:text-[7rem] font-black text-white uppercase tracking-tighter leading-[0.8] mb-8 drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]">
-                            Safari<br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-600 italic px-4 -ml-4">Collections</span>
+                            {pageTitle.top}<br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-600 italic px-4 -ml-4">{pageTitle.bottom}</span>
                         </h1>
                         <p className="text-white font-bold text-lg md:text-xl max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
                             Every mile a memory. Every encounter a story. <br className="hidden md:block" />
-                            Explore our signature collection of Habarana wildlife experiences.
+                            Explore our signature collection of {destFilter ? pageTitle.top + ' ' + pageTitle.bottom : 'Habarana wildlife'} experiences.
                         </p>
                     </motion.div>
                 </div>
@@ -126,5 +155,13 @@ export default function ToursPage() {
             </section>
 
         </div>
+    );
+}
+
+export default function ToursPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-[#0b1315] flex items-center justify-center"><Loader2 className="w-12 h-12 text-emerald-500 animate-spin" /></div>}>
+            <ToursContent />
+        </Suspense>
     );
 }

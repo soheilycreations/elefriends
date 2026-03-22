@@ -14,7 +14,8 @@ export default function DestinationsPage() {
         const fetchDestinations = async () => {
             try {
                 const data = await destinationService.getAllDestinations();
-                setDestinations(data);
+                const sorted = data.sort((a, b) => (a.display_order ?? 999) - (b.display_order ?? 999));
+                setDestinations(sorted);
             } catch (error) {
                 console.error('Failed to fetch destinations:', error);
             } finally {

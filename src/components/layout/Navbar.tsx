@@ -21,9 +21,10 @@ export default function Navbar() {
 
     const pathSegments = pathname.split('/').filter(Boolean);
     const isLocaleOnly = pathSegments.length <= 1; // e.g. /en or /
+    const isDestinationsIndex = pathname.endsWith('/destinations');
     const isHeroPage = isLocaleOnly ||
         pathname.includes('/tours') ||
-        pathname.includes('/destinations') ||
+        (pathname.includes('/destinations') && !isDestinationsIndex) ||
         pathname.includes('/packages') ||
         pathname.includes('/about') ||
         pathname.includes('/contact');

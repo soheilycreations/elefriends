@@ -20,7 +20,7 @@ export default function DestinationCard({ title, subtitle, image, link }: Destin
             >
                 {/* Background Image */}
                 <div className="absolute inset-0 w-full h-full overflow-hidden">
-                    {image ? (
+                    {image && (image.startsWith('http') || image.startsWith('/')) ? (
                         <Image
                             src={image}
                             alt={title}
@@ -40,7 +40,7 @@ export default function DestinationCard({ title, subtitle, image, link }: Destin
                 <div className="absolute bottom-0 left-0 w-full p-8 z-20 flex flex-col items-start text-white">
                     <h3 className="text-2xl font-black mb-2 uppercase leading-snug tracking-tight">{title}</h3>
                     <p className="text-sm font-medium text-gray-300 mb-6">{subtitle}</p>
-                    <div className="bg-white text-black text-xs font-bold uppercase py-3 px-6 rounded-full inline-block shadow-lg hover:bg-gray-100 transition-colors">
+                    <div className="bg-white text-[#0b1315] text-[10px] font-black uppercase py-4 px-8 rounded-2xl inline-block shadow-lg group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300 transform group-hover:scale-110 tracking-[0.2em]">
                         View Packages
                     </div>
                 </div>

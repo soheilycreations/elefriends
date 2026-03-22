@@ -5,6 +5,7 @@ export interface Destination {
     description: string;
     image: string;
     slug: string;
+    display_order?: number;
     created_at: string;
 }
 

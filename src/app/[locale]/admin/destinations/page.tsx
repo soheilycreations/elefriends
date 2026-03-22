@@ -41,7 +41,8 @@ export default function AdminDestinations() {
             subtitle: '',
             description: '',
             image: '',
-            slug: ''
+            slug: '',
+            display_order: 0
         });
         setIsEditModalOpen(true);
     };
@@ -66,9 +67,13 @@ export default function AdminDestinations() {
 
             setIsEditModalOpen(false);
             fetchData();
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error saving destination:', error);
-            alert('Failed to save destination. Check console for details.');
+            if (error?.message?.includes('display_order')) {
+                alert('Database Error: Please go to Supabase Dashboard and add the "display_order" column (Type: int4) to the "destinations" table as instructed!');
+            } else {
+                alert('Failed to save: ' + (error?.message || 'Check console'));
+            }
         } finally {
             setIsSaving(false);
         }
@@ -251,6 +256,8 @@ export default function AdminDestinations() {
                                     </div>
                                 </div>
 
+                            
+
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block pl-2">Description</label>
                                     <textarea
@@ -261,15 +268,28 @@ export default function AdminDestinations() {
                                     />
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block pl-2">SEO Slug (Auto-generated if empty)</label>
-                                    <input
-                                        type="text"
-                                        value={selectedDestination.slug}
-                                        onChange={(e) => setSelectedDestination({ ...selectedDestination, slug: e.target.value })}
-                                        className="w-full bg-white border border-gray-200 rounded-2xl py-4 px-6 text-sm font-bold text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
-                                        placeholder="minneriya-park"
-                                    />
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block pl-2">SEO Slug (Auto-generated if empty)</label>
+                                        <input
+                                            type="text"
+                                            value={selectedDestination.slug}
+                                            onChange={(e) => setSelectedDestination({ ...selectedDestination, slug: e.target.value })}
+                                            className="w-full bg-white border border-gray-200 rounded-2xl py-4 px-6 text-sm font-bold text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                                            placeholder="minneriya-park"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block pl-2">Display Order</label>
+                                        <input
+                                            type="number"
+                                            value={selectedDestination.display_order ?? 0}
+                                            onChange={(e) => setSelectedDestination({ ...selectedDestination, display_order: parseInt(e.target.value) || 0 })}
+                                            className="w-full bg-white border border-gray-200 rounded-2xl py-4 px-6 text-sm font-bold text-black focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                                            placeholder="1"
+                                        />
+                                        <p className="text-[9px] text-gray-400 pl-2">Lower number = appears first (e.g. 1 for Top)</p>
+                                    </div>
                                 </div>
                             </div>
 
