@@ -2,7 +2,8 @@
 
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { Phone, Mail, Instagram, Facebook, Twitter, Leaf } from 'lucide-react';
+import { Phone, Mail, Instagram, Facebook, Twitter } from 'lucide-react';
+import { ElephantIcon } from '@/components/icons/ElephantIcon';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
@@ -40,8 +41,8 @@ export default function Navbar() {
 
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div className="bg-emerald-500 p-2 rounded-xl transition-transform group-hover:scale-110">
-                            <Leaf className="w-6 h-6 text-white" />
+                        <div className="bg-gradient-to-br from-emerald-400 to-emerald-600 p-2 rounded-xl shadow-lg shadow-emerald-500/20 transition-all duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                            <ElephantIcon className="w-6 h-6 text-white" />
                         </div>
                         <div className="flex flex-col">
                             <span className={`text-xl font-black leading-none tracking-tight transition-colors duration-300 ${shouldBeWhite ? 'text-white' : 'text-[#0b1315]'}`}>ELEFRIENDS</span>
