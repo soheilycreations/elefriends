@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Compass, Sparkles, Calendar, Map, Info, Camera, Zap, ArrowRight } from 'lucide-react';
+import { MapPin, Compass, Sparkles, Calendar, Map as MapIcon, Info, Camera, Zap, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 
 interface TourOverview {
     id: string;
@@ -265,7 +265,7 @@ export default function DestinationMap() {
                                                     </div>
                                                     <div className="bg-gray-50/80 rounded-2xl p-3 border border-gray-100 flex flex-col gap-1">
                                                         <span className="flex items-center gap-1.5 text-[9px] text-gray-500 font-bold uppercase tracking-widest">
-                                                            <Map className="w-3 h-3" /> Area size
+                                                            <MapIcon className="w-3 h-3" /> Area size
                                                         </span>
                                                         <span className="text-emerald-700 font-black text-xs uppercase">{dest.area}</span>
                                                     </div>
