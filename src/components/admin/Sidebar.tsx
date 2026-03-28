@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Package, CalendarDays, MapPin, Settings, LogOut, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Package, CalendarDays, MapPin, Settings, LogOut, ChevronRight, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const menuItems = [
@@ -10,6 +10,7 @@ const menuItems = [
     { name: 'Safari Tours', path: '/admin/tours', icon: <Package size={18} /> },
     { name: 'Destinations', path: '/admin/destinations', icon: <MapPin size={18} /> },
     { name: 'Bookings', path: '/admin/bookings', icon: <CalendarDays size={18} /> },
+    { name: 'Inbox', path: '/admin/chat', icon: <MessageSquare size={18} /> },
     { name: 'Settings', path: '/admin/settings', icon: <Settings size={18} /> },
 ];
 

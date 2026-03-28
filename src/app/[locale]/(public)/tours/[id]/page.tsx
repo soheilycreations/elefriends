@@ -199,7 +199,7 @@ export default function TourDetailsPage({ params }: { params: any }) {
                                         The Expedition
                                     </h2>
                                     <h3 className="text-4xl md:text-5xl font-black text-[#0b1315] uppercase tracking-tighter leading-none mb-12">
-                                        Day by day <br />
+                                        Step by Step <br />
                                         <span className="text-emerald-500 italic lowercase tracking-tight">itinerary breakdown</span>
                                     </h3>
 
