@@ -259,7 +259,7 @@ export default function AdminBookings() {
                                 )}
                             </div>
 
-                            <div className="p-10 space-y-8 overflow-y-auto flex-1 bg-gray-50/30">
+                            <div className="p-10 space-y-8 overflow-y-auto flex-1 bg-gray-50/30" data-lenis-prevent>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     {isEditing ? (
                                         <>

@@ -103,7 +103,7 @@ export default function BookingModal({
                             </div>
 
                             {/* Right Side: Form */}
-                            <div className="w-full md:w-7/12 p-8 md:px-10 md:py-8 overflow-y-auto max-h-[85vh]">
+                            <div className="w-full md:w-7/12 p-8 md:px-10 md:py-8 overflow-y-auto max-h-[85vh] custom-scrollbar" data-lenis-prevent>
                                 <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-8">Book Your Safari</h3>
 
                                 <form onSubmit={handleSubmit} className="space-y-5">

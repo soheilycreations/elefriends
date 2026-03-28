@@ -12,6 +12,7 @@ import TestimonialsSection from '@/components/home/TestimonialsSection';
 import { ShieldCheck, UserCheck, Car, Award, ArrowRight, Play, Compass, Map, Sparkles } from 'lucide-react';
 import { ElephantIcon } from '@/components/icons/ElephantIcon';
 import { SriLankanMap, LiyawelPattern } from '@/components/icons/HeritageIcons';
+import { destinationService } from '@/lib/services/destinationService';
 import { Destination } from '@/types';
 import WordReveal from '@/components/animations/WordReveal';
 
@@ -218,29 +219,44 @@ export default function HomePage() {
                         transition={{ duration: 1, ease: "circOut" }}
                         className="relative"
                     >
-                        <h1 className="font-black tracking-tighter mb-4 text-white uppercase drop-shadow-[0_25px_60px_rgba(0,0,0,0.8)] flex flex-col items-start overflow-hidden">
-                            <WordReveal 
-                                text="In to the" 
-                                className="text-3xl md:text-5xl lg:text-[4rem] leading-none mb-1 opacity-90" 
-                                delay={0.2}
-                            />
-                            <div className="flex items-baseline gap-4 mb-2">
-                                <WordReveal 
-                                    text="World" 
-                                    className="text-6xl md:text-7xl lg:text-[8rem] text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-600 italic leading-[0.8] drop-shadow-none pr-4" 
-                                    delay={0.4}
-                                />
-                                <WordReveal 
-                                    text="of" 
-                                    className="text-3xl md:text-5xl lg:text-[4rem] opacity-90" 
-                                    delay={0.6}
-                                />
+                        <h1 className="font-black tracking-tighter mb-4 text-white uppercase drop-shadow-[0_25px_60px_rgba(0,0,0,0.8)] flex flex-col items-start">
+                            <motion.span 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                                className="text-3xl md:text-5xl lg:text-[4rem] leading-none mb-1 opacity-90"
+                            >
+                                In to the
+                            </motion.span>
+                            
+                            <div className="flex items-baseline gap-4 mb-2 overflow-hidden py-2">
+                                <motion.span 
+                                    initial={{ opacity: 0, y: 80 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                                    className="text-6xl md:text-7xl lg:text-[8rem] text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-600 italic leading-[0.8] drop-shadow-none pr-4"
+                                >
+                                    World
+                                </motion.span>
+                                
+                                <motion.span 
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                                    className="text-3xl md:text-5xl lg:text-[4rem] opacity-90"
+                                >
+                                    of
+                                </motion.span>
                             </div>
-                            <WordReveal 
-                                text="Gentle Giants" 
-                                className="text-5xl md:text-7xl lg:text-[6.5rem] leading-[0.85]" 
-                                delay={0.8}
-                            />
+                            
+                            <motion.span 
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                                className="text-5xl md:text-7xl lg:text-[6.5rem] leading-[0.85]"
+                            >
+                                Gentle Giants
+                            </motion.span>
                         </h1>
 
                         {/* Immersive Floating Badge */}
