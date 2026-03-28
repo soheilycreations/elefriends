@@ -157,19 +157,32 @@ export default function HomePage() {
 
             {/* Hero Section - Full Screen & Immersive */}
             <section ref={heroRef} className="relative h-[100dvh] flex flex-col justify-start overflow-hidden">
-                {/* Background Image with advanced layers */}
+                {/* Background Image & Video with advanced layers */}
                 <motion.div
                     style={{ y: yBg, scale: scaleHero }}
                     className="absolute inset-0 z-0 bg-[#0b1315]"
                 >
+                    {/* Faint Background Video */}
+                    <div className="absolute inset-0 z-0 opacity-[0.35] pointer-events-none overflow-hidden">
+                        <video 
+                            autoPlay 
+                            loop 
+                            muted 
+                            playsInline 
+                            className="absolute top-1/2 left-1/2 w-full h-full object-cover -translate-x-1/2 -translate-y-1/2"
+                        >
+                            <source src="/backtop.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    
                     <Image
                         src="/img/hero-safari.png"
                         alt="Majestic Safari Elephant"
                         fill
-                        className="object-cover"
+                        className="object-cover opacity-40 mix-blend-overlay"
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#0b1315] via-[#0b1315]/20 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#0b1315] via-[#0b1315]/60 to-[#0b1315]/20 z-10" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0b1315] via-transparent to-transparent z-10" />
                 </motion.div>
 

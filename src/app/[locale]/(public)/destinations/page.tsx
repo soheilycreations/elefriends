@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Destination } from '@/types';
 import { destinationService } from '@/lib/services/destinationService';
 import DestinationCard from '@/components/home/DestinationCard';
+import DestinationMap from '@/components/destinations/DestinationMap';
 import { Loader2 } from 'lucide-react';
 
 export default function DestinationsPage() {
@@ -30,14 +31,23 @@ export default function DestinationsPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {/* Header Section */}
-                <div className="text-center mb-16">
+                <div className="text-center mb-16 px-4">
                     <h2 className="text-emerald-500 font-bold tracking-[0.2em] uppercase text-xs mb-3">Explore Sri Lanka</h2>
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#0b1315] uppercase tracking-tight mb-6">
-                        All Destinations
+                    <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-[#0b1315] uppercase tracking-tight mb-8">
+                        The North <br />
+                        <span className="text-emerald-500 italic lowercase tracking-tight">central network</span>
                     </h1>
-                    <p className="text-gray-500 font-medium max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
-                        From world-renowned elephant gatherings to dense eco-parks and traditional village life. Discover the diverse landscapes of Sri Lanka's North Central Province with our expert guides.
-                    </p>
+                </div>
+
+                {/* Interactive Map Visualization */}
+                <div className="mb-32">
+                    <DestinationMap />
+                </div>
+
+                {/* All Locations Section Header */}
+                <div className="mb-12 flex flex-col items-center">
+                    <div className="h-20 w-[1.5px] bg-emerald-500/20 mb-10" />
+                    <h2 className="text-emerald-500 font-black tracking-[0.4em] uppercase text-xs">All Locations</h2>
                 </div>
 
                 {/* Destinations Grid */}
