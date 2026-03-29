@@ -111,7 +111,7 @@ export default function DestinationDetail() {
                         className="max-w-4xl"
                     >
                         <h4 className="text-emerald-400 font-black uppercase text-[10px] tracking-[0.6em] mb-6 ml-[0.6em]">Experience Sri Lanka</h4>
-                        <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black text-white uppercase tracking-tighter leading-[0.8] mb-8 mix-blend-difference">
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-tight mb-8">
                             {destination.title}
                         </h1>
                         <div className="flex items-center justify-center gap-4 text-white/40 font-bold uppercase text-[9px] tracking-[0.3em]">
