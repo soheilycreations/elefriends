@@ -21,7 +21,7 @@ export default function WordReveal({ text, className = "", delay = 0 }: WordReve
         }),
     };
 
-    const child = {
+    const child: any = {
         visible: {
             opacity: 1,
             y: 0,
