@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { Destination, Tour } from '@/types';
 import { destinationService } from '@/lib/services/destinationService';
 import { tourService } from '@/lib/services/tourService';
-import DestinationMap from '@/components/destinations/DestinationMap';
-import { Loader2, Calendar, Users, ArrowRight, MapPin } from 'lucide-react';
+import { Loader2, Calendar, Users, ArrowRight, Compass, Sparkles, Globe } from 'lucide-react';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function DestinationsPage() {
     const [destinations, setDestinations] = useState<Destination[]>([]);
@@ -70,27 +70,96 @@ export default function DestinationsPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 
                 {/* Header Section */}
-                <div className="text-center mb-16 px-4">
-                    <h2 className="text-emerald-500 font-bold tracking-[0.2em] uppercase text-xs mb-3">Explore Sri Lanka</h2>
-                    <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-[#0b1315] uppercase tracking-tight mb-8">
-                        The North <br />
-                        <span className="text-emerald-500 italic lowercase tracking-tight">central network</span>
-                    </h1>
+                <div className="text-center mb-24 px-4 overflow-hidden">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h2 className="text-emerald-500 font-bold tracking-[0.4em] uppercase text-[10px] mb-4">Discover Your Next Adventure</h2>
+                        <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-[#0b1315] uppercase tracking-tighter leading-[0.85] mb-8">
+                            Curated <br />
+                            <span className="text-emerald-500 italic lowercase tracking-tighter">Destinations</span>
+                        </h1>
+                        <p className="text-gray-500 font-medium max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+                            From the misty highlands to the sun-drenched coasts, explore the wild heart of Sri Lanka through our hand-picked safari locations.
+                        </p>
+                    </motion.div>
                 </div>
 
-                {/* Interactive Map Visualization */}
-                <div className="mb-24">
-                    <DestinationMap onHoverChange={setSelectedSlug} />
-                </div>
+                {/* Destinations Grid */}
+                {loading ? (
+                    <div className="flex items-center justify-center py-32">
+                        <Loader2 className="w-12 h-12 text-emerald-500 animate-spin" />
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+                        {destinations.map((dest, index) => (
+                            <motion.div
+                                key={dest.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1, duration: 0.8 }}
+                                viewport={{ once: true }}
+                                className={`group relative h-[500px] rounded-[3rem] overflow-hidden bg-white border border-gray-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-3`}
+                            >
+                                <Image 
+                                    src={dest.image} 
+                                    alt={dest.title} 
+                                    fill 
+                                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0b1315]/95 via-[#0b1315]/20 to-transparent" />
+                                
+                                <div className="absolute bottom-10 left-10 right-10">
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <span className="h-[1px] w-8 bg-emerald-500" />
+                                        <span className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.4em]">
+                                            {dest.subtitle || 'Wilderness'}
+                                        </span>
+                                    </div>
+                                    <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mb-4 leading-none group-hover:text-emerald-400 transition-colors">
+                                        {dest.title}
+                                    </h3>
+                                    <p className="text-gray-300 text-sm font-medium line-clamp-2 mb-8 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                                        {dest.description}
+                                    </p>
+                                    <Link 
+                                        href={`/destinations/${dest.slug}`}
+                                        className="flex items-center gap-3 text-white text-[10px] font-black uppercase tracking-[0.2em] bg-white/10 backdrop-blur-xl w-fit px-8 py-4 rounded-full border border-white/20 group-hover:bg-emerald-500 group-hover:border-emerald-400 transition-all"
+                                    >
+                                        Explore Destination <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                    </Link>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                )}
+
 
                 {/* Dynamic Tours Section */}
-                <div className="mb-12 flex flex-col items-center">
+                <div id="excursions-section" className="mb-24 flex flex-col items-center">
                     <div className="h-20 w-[1.5px] bg-emerald-500/20 mb-8" />
-                    <h2 className="text-emerald-500 font-black tracking-[0.4em] uppercase text-xs text-center transition-all">
-                        {selectedSlug && activeDestination 
-                            ? `Experiences in ${activeDestination.title}` 
-                            : 'Select a location on the map'}
-                    </h2>
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={selectedSlug}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className="text-center"
+                        >
+                            <h2 className="text-emerald-500 font-black tracking-[0.4em] uppercase text-[10px] transition-all mb-4">
+                                {selectedSlug && activeDestination 
+                                    ? `Exclusive Experiences` 
+                                    : 'Awaiting Discovery'}
+                            </h2>
+                            <h3 className="text-4xl md:text-6xl font-black text-[#0b1315] uppercase tracking-tighter">
+                                {selectedSlug && activeDestination 
+                                    ? activeDestination.title 
+                                    : 'Quick Tour Preview'}
+                            </h3>
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
 
                 {/* Tours Grid */}
@@ -100,9 +169,9 @@ export default function DestinationsPage() {
                     </div>
                 ) : !selectedSlug ? (
                     <div className="flex flex-col items-center justify-center py-16 text-center">
-                        <MapPin className="w-12 h-12 text-gray-300 mb-4" />
+                        <Compass className="w-12 h-12 text-gray-200 mb-4 animate-spin-slow" />
                         <p className="text-gray-400 font-medium max-w-sm">
-                            Hover over a destination on the interactive map above to uncover our curated tours and safaris available there.
+                            Scroll through our featured tours below or click on a destination card to see its full gallery and details.
                         </p>
                     </div>
                 ) : loadingTours ? (
@@ -154,15 +223,19 @@ export default function DestinationsPage() {
                         ))}
                     </div>
                 ) : (
-                    <div className="flex flex-col items-center justify-center py-16 text-center">
-                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                            <MapPin className="w-6 h-6 text-gray-400" />
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        className="flex flex-col items-center justify-center py-24 text-center bg-white rounded-[3rem] border border-dashed border-gray-200"
+                    >
+                        <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-6">
+                            <Compass className="w-8 h-8 text-emerald-300 animate-pulse" />
                         </div>
-                        <h3 className="text-lg font-black text-gray-800 uppercase tracking-tight mb-2">No active tours</h3>
-                        <p className="text-gray-500 font-medium text-sm">
-                            We are currently designing exclusive experiences for this location.
+                        <h3 className="text-2xl font-black text-[#0b1315] uppercase tracking-tighter mb-3">No Active Excursions</h3>
+                        <p className="text-gray-500 font-medium text-sm max-w-sm">
+                            Our explorers are currently mapping out new experiences for this region. Check back soon.
                         </p>
-                    </div>
+                    </motion.div>
                 )}
                 
                 {tours.length >= 4 && selectedSlug && (
