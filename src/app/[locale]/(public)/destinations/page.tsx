@@ -101,7 +101,8 @@ export default function DestinationsPage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1, duration: 0.8 }}
                                 viewport={{ once: true }}
-                                className={`group relative h-[500px] rounded-[3rem] overflow-hidden bg-white border border-gray-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-3`}
+                                onMouseEnter={() => setSelectedSlug(dest.slug)}
+                                className={`group relative h-[500px] rounded-[3rem] overflow-hidden bg-white border border-gray-100 transition-all duration-700 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-3 cursor-pointer ${selectedSlug === dest.slug ? 'ring-2 ring-emerald-500 ring-offset-4 ring-offset-[#f0f2f5]' : ''}`}
                             >
                                 <Image 
                                     src={dest.image} 

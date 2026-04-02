@@ -121,38 +121,25 @@ export default function DestinationDetail() {
                 </div>
 
                 {/* Hero Content */}
-                <div className="relative h-full flex flex-col items-center justify-center text-center px-4 z-10">
+                <div className="relative h-full flex flex-col items-center justify-center text-center px-4 z-10 pt-32">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="space-y-6 max-w-5xl"
+                        className="space-y-6 max-w-6xl"
                     >
                         <div className="flex items-center justify-center gap-4">
-                            <div className="h-[1px] w-12 bg-emerald-500/50" />
+                            <div className="h-[1px] w-8 md:w-12 bg-emerald-500/50" />
                             <span className="text-emerald-400 font-black text-[10px] uppercase tracking-[0.6em]">Premium Sanctuary</span>
-                            <div className="h-[1px] w-12 bg-emerald-500/50" />
+                            <div className="h-[1px] w-8 md:w-12 bg-emerald-500/50" />
                         </div>
                         
-                        <h1 className="text-7xl md:text-[11rem] font-black text-white uppercase tracking-[-0.06em] leading-[0.85] drop-shadow-2xl">
-                            {destination.title}
+                        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[9rem] font-black text-white uppercase tracking-[-0.04em] leading-[0.85] drop-shadow-2xl px-4 break-words">
+                            {destination.title.trim()}
                         </h1>
 
-                        <div className="flex flex-col items-center gap-6 pt-4">
-                            <div className="flex items-center gap-8">
-                                <div className="hidden md:block w-32 h-[1px] bg-white/20" />
-                                <p className="text-white/80 font-bold text-[10px] md:text-sm uppercase tracking-[0.4em]">
-                                    {destination.subtitle || 'A Sanctuary of Wild Herds'}
-                                </p>
-                                <div className="hidden md:block w-32 h-[1px] bg-white/20" />
-                            </div>
+                        <div className="flex flex-col items-center gap-6 pt-8">
                         </div>
                     </motion.div>
-
-                    {/* Scroll Indicator */}
-                    <div className="absolute bottom-12 flex flex-col items-center gap-4">
-                        <span className="text-white/30 font-black text-[8px] uppercase tracking-[0.5em] rotate-180 [writing-mode:vertical-lr]">Discover</span>
-                        <div className="w-[1px] h-12 bg-gradient-to-b from-emerald-500 to-transparent" />
-                    </div>
                 </div>
             </div>
 
@@ -164,20 +151,20 @@ export default function DestinationDetail() {
                     <div className="lg:col-span-8 space-y-20">
                         
                         {/* Editorial Narratives - Moved to Top */}
-                        <div className="relative -mt-12">
+                        <div className="relative -mt-16 bg-white rounded-[3rem] p-10 md:p-16 shadow-xl shadow-emerald-900/5 border border-emerald-50">
                             <div className="flex flex-col gap-10">
-                                <div className="space-y-4">
+                                <div className="space-y-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-4 h-[1px] bg-emerald-500" />
-                                        <span className="text-emerald-500 font-black text-[9px] uppercase tracking-[0.4em]">The Heritage Folio</span>
+                                        <div className="w-6 h-[1px] bg-emerald-500" />
+                                        <span className="text-emerald-500 font-black text-[10px] uppercase tracking-[0.4em]">The Heritage Folio</span>
                                     </div>
-                                    <h2 className="text-3xl md:text-5xl font-black text-[#0b1315] uppercase tracking-tighter leading-tight">
-                                        Discover <span className="text-emerald-500">{destination.title}</span>
+                                    <h2 className="text-4xl md:text-6xl font-black text-[#0b1315] uppercase tracking-[-0.04em] leading-none">
+                                        Discover <br /> <span className="text-emerald-500">{destination.title}</span>
                                     </h2>
                                 </div>
                                 <div className="relative">
-                                    <p className="text-gray-500 text-lg md:text-xl leading-[1.7] font-medium tracking-tight max-w-3xl">
-                                        {destination.description}
+                                    <p className="text-gray-500 text-lg md:text-xl leading-[1.8] font-medium tracking-tight max-w-4xl">
+                                        {destination.description || `Experience the breathtaking beauty and rich biodiversity of ${destination.title}. A destination where nature and civilization maintain a delicate, ancient balance.`}
                                     </p>
                                     <div className="mt-8 flex gap-3">
                                         <div className="px-4 py-1.5 rounded-full border border-gray-100 text-[8px] font-black uppercase tracking-widest text-gray-400">Ancient Biosphere</div>
@@ -237,19 +224,27 @@ export default function DestinationDetail() {
                                 </button>
                             </div>
                             
-                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                                 {galleryImages.map((img, i) => (
                                     <motion.div
                                         key={i}
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
-                                        transition={{ delay: (i % 4) * 0.1 }}
+                                        transition={{ delay: i * 0.1 }}
                                         className={`relative overflow-hidden rounded-[2.5rem] bg-gray-100 group cursor-zoom-in ${
-                                            i === 0 ? 'col-span-2 row-span-2' : ''
+                                            i === 0 ? 'col-span-2 row-span-2 h-[500px]' : 
+                                            i === 1 ? 'col-span-2 h-[240px]' :
+                                            'h-[240px]'
                                         }`}
                                     >
-                                        <Image src={img} alt={`Gallery ${i}`} fill className="object-cover transition-transform duration-1000 group-hover:scale-110" />
+                                        <Image 
+                                            src={img} 
+                                            alt={`Gallery ${i}`} 
+                                            fill 
+                                            className="object-cover transition-transform duration-1000 group-hover:scale-110" 
+                                            sizes={i === 0 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
+                                        />
                                         <div className="absolute inset-0 bg-emerald-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                                             <Sparkles className="text-white w-8 h-8 scale-0 group-hover:scale-100 transition-transform duration-500 delay-100" />
                                         </div>
@@ -260,27 +255,27 @@ export default function DestinationDetail() {
 
                         {/* Curated Excursions - Premium Cards */}
                         <div id="tours-section" className="space-y-12 pt-12">
-                            <div className="flex flex-col items-center text-center space-y-4">
-                                <div className="w-16 h-[1px] bg-emerald-500/30" />
-                                <h3 className="text-5xl md:text-7xl font-black text-[#0b1315] uppercase tracking-[ -0.05em] leading-[0.9]">
-                                    Curated <br /> <span className="text-transparent border-t border-emerald-500/20 py-2 inline-block" style={{ WebkitTextStroke: '1px #0b1315' }}>Experiences</span>
+                            <div className="flex flex-col items-center text-center space-y-6">
+                                <div className="w-20 h-[1.5px] bg-emerald-500 rounded-full" />
+                                <h3 className="text-6xl md:text-8xl font-black text-[#0b1315] uppercase tracking-[-0.05em] leading-[0.85]">
+                                    Curated <br /> <span className="text-transparent inline-block" style={{ WebkitTextStroke: '2px #0b1315' }}>Experiences</span>
                                 </h3>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                {tours.map((tour) => (
+                                {tours.length > 0 ? tours.map((tour) => (
                                     <Link key={tour.id} href={`/tours/${tour.id}`} className="group relative">
                                         <div className="absolute -inset-2 bg-emerald-500/5 rounded-[4rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                                         <div className="relative h-[28rem] rounded-[3.5rem] overflow-hidden bg-white border border-white hover:border-emerald-100 transition-all duration-700">
                                             <Image
-                                                src={tour.images[0] || destination.image}
+                                                src={tour.images?.[0] || destination.image}
                                                 alt={tour.title}
                                                 fill
                                                 className="object-cover transition-transform duration-1000 group-hover:scale-110 opacity-90 group-hover:opacity-100"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-[#0b1315] via-[#0b1315]/40 to-transparent" />
                                             
-                                            <div className="absolute top-10 right-10 flex flex-col items-end gap-2">
+                                            <div className="absolute top-10 right-10 flex flex-col items-end gap-2 text-right">
                                                 <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-6 py-3">
                                                     <span className="text-emerald-400 font-extrabold text-lg tracking-tight">${tour.price}</span>
                                                 </div>
@@ -294,7 +289,7 @@ export default function DestinationDetail() {
                                                         {tour.title}
                                                     </h4>
                                                 </div>
-                                                <div className="flex items-center gap-8 text-white/60">
+                                                <div className="flex items-center gap-6 text-white/60">
                                                     <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest bg-white/5 rounded-full px-4 py-2 border border-white/10">
                                                         <Calendar size={14} className="text-emerald-500" />
                                                         {tour.duration}
@@ -307,7 +302,12 @@ export default function DestinationDetail() {
                                             </div>
                                         </div>
                                     </Link>
-                                ))}
+                                )) : (
+                                    <div className="col-span-full py-20 text-center space-y-4 bg-gray-50/50 rounded-[3rem] border border-dashed border-gray-200">
+                                        <Sparkles className="w-8 h-8 text-emerald-300 mx-auto" />
+                                        <p className="text-sm font-medium text-gray-400 uppercase tracking-widest">More curated experiences coming soon.</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

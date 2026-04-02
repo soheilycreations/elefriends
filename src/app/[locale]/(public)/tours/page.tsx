@@ -131,8 +131,8 @@ function ToursContent() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                        {packages.map((pkg, index) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 min-h-[400px]">
+                        {packages.length > 0 ? packages.map((pkg, index) => (
                             <motion.div
                                 key={pkg.id}
                                 initial={{ opacity: 0, y: 40 }}
@@ -149,7 +149,22 @@ function ToursContent() {
                                     image={pkg.images?.[0] || '/img/img5.jpg'}
                                 />
                             </motion.div>
-                        ))}
+                        )) : (
+                            <div className="col-span-full py-32 flex flex-col items-center text-center space-y-6">
+                                <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center">
+                                    <Compass className="w-10 h-10 text-emerald-200" />
+                                </div>
+                                <div className="space-y-2">
+                                    <h4 className="text-2xl font-black text-[#0b1315] uppercase tracking-tighter">No Adventures Found</h4>
+                                    <p className="text-gray-400 font-medium max-w-sm mx-auto">
+                                        We are currently refining our {destFilter ? 'packages for this region' : 'safari collection'}. Check back shortly for new departures.
+                                    </p>
+                                </div>
+                                <button onClick={() => window.location.href = '/tours'} className="text-emerald-600 font-black uppercase text-[10px] tracking-widest border-b border-emerald-200 pb-1 hover:border-emerald-500 transition-all">
+                                    View All Explorations
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>
