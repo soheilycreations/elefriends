@@ -117,7 +117,7 @@ function CheckoutContent() {
                 pax: parseInt(guests),
                 total_price: parseFloat(total),
                 status: 'pending' as const,
-                payment_status: (paymentMethod === 'card' || isHelaSuccess) ? 'paid' : 'unpaid' as const,
+                payment_status: ((paymentMethod === 'card' || isHelaSuccess) ? 'paid' : 'unpaid') as "paid" | "unpaid",
                 notes: paymentMethod === 'hela' ? `HelaPay Reference: ${referenceId}` : ''
             };
 
@@ -474,7 +474,7 @@ function CheckoutContent() {
                             </div>
 
                             <button
-                                onClick={handleFinalSubmit}
+                                onClick={() => handleFinalSubmit()}
                                 type="button"
                                 disabled={isSubmitting}
                                 className="w-full bg-[#0b1315] hover:bg-[#1a2528] disabled:opacity-50 text-white font-black text-sm uppercase tracking-widest py-5 px-8 rounded-2xl transition-all shadow-xl mt-8 flex items-center justify-center gap-3"
